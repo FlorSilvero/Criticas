@@ -1,0 +1,401 @@
+﻿@page "/films"
+@attribute [StreamRendering]
+@inject HttpClient Http
+@inject S3Service S3Service
+
+@rendermode InteractiveServer
+@using Microsoft.AspNetCore.Components.Web
+
+<PageTitle>Películas</PageTitle>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+<h1>Películas</h1>
+
+<div>
+    <button class="btn btn-outline-info w-100 d-flex justify-content-between text-black" @onclick="ToggleForm">
+        <span>@(formTitle)</span>
+        <span>@(formVisible ? "▲" : "▼")</span>
+    </button>
+
+    @if (formVisible)
+    {
+        <div class="border border-info rounded p-3 mt-3">
+            <div class="mb-3">
+                <label for="titulo">Título</label>
+                <input id="titulo" type="text" @bind-value="pelicula.Titulo" class="form-control" placeholder="Ingrese el título" />
+            </div>
+            <div class="mb-3">
+                <label for="descripcion">Descripción</label>
+                <input id="descripcion" type="text" @bind-value="pelicula.Descripcion" class="form-control" placeholder="Ingrese la descripción" />
+            </div>
+            <div class="mb-3">
+                <label for="fechaLanzamiento">Fecha de Lanzamiento</label>
+                <input id="fechaLanzamiento" type="text" @bind-value="pelicula.FechaLanzamiento" class="form-control" placeholder="Ingrese la fecha de lanzamiento" />
+            </div>
+
+            <div class="mb-3">
+                <label for="trailer">Trailer</label>
+                <InputFile OnChange="OnFileSelected" />
+                <button class="btn btn-outline-primary mt-2" @onclick="UploadTrailer">Subir Trailer</button>
+            </div>
+
+            <button class="btn btn-outline-primary" @onclick="Guardar" style="@(GuardarVisible ? "" : "display: none;")">Guardar</button>
+            <button class="btn btn-outline-primary" @onclick="Editar" style="@(EditarVisible ? "" : "display: none;")">Modificar</button>
+            <button class="btn btn-outline-secondary" @onclick="Cancelar">Cancelar</button>
+        </div>
+    }
+
+    <div class="mb-5">
+        @if (Peliculas == null || Criticas == null)
+        {
+            <p><em>Cargando...</em></p>
+        }
+        else
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Descripción</th>
+                        <th>Fecha de Lanzamiento</th>
+                        <th>Acciones</th>
+                        <th>Trailer</th>
+                        <th>Crítica</th>
+                        <th>Acciones de Crítica</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var p in Peliculas)
+                    {
+                        var critica = Criticas.FirstOrDefault(c => c.PeliculaId == p.Id);
+
+                        <tr>
+                            <td>@p.Titulo</td>
+                            <td>@p.Descripcion</td>
+                            <td>@p.FechaLanzamiento</td>
+                            <td>
+                                <div class="btn-group-vertical w-100">
+                                    <button class="btn btn-outline-primary" @onclick="() => AsignarPelicula(p)">
+                                        <i class="bi bi-pencil"></i> Editar
+                                    </button>
+                                    <button class="btn btn-outline-danger" @onclick="() => Eliminar(p)">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </div>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(p.TrailerUrl))
+                                {
+                                    <video width="200" controls>
+                                        <source src="@p.TrailerUrl" type="video/mp4">
+                                        Tu navegador no soporta el elemento de video.
+                                    </video>
+                                }
+                                else
+                                {
+                                    <span>No disponible</span>
+                                }
+                            </td>
+                            <td>
+                                @if (critica != null)
+                                {
+                                    <div>
+                                        <strong>Descripción:</strong> @critica.Descripcion <br />
+                                        <strong>Puntaje:</strong> @critica.Puntaje
+                                    </div>
+                                }
+                                else
+                                {
+                                    <span>Aún no hay una crítica para esta película</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="btn-group-vertical w-100">
+                                    @if (critica != null)
+                                    {
+                                        <button class="btn btn-outline-primary btn-sm" @onclick="() => AsignarCritica(critica)">
+                                            <i class="bi bi-pencil"></i> Editar Crítica
+                                        </button>
+                                        <button class="btn btn-outline-danger btn-sm" @onclick="() => EliminarCritica(critica)">
+                                            <i class="bi bi-trash"></i> Eliminar Crítica
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button class="btn btn-outline-success btn-sm" @onclick="() => AsignarNuevaCritica(p)">
+                                            <i class="bi bi-plus"></i> Crear Crítica
+                                        </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <!-- Formulario de Crítica -->
+    @if (criticaFormVisible)
+    {
+        <div class="border border-info rounded p-3 mt-3">
+            <h3>@(criticaFormTitle)</h3>
+            <div class="mb-3">
+                <label for="descripcionCritica">Descripción</label>
+                <input id="descripcionCritica" type="text" @bind-value="critica.Descripcion" class="form-control" placeholder="Ingrese la crítica" />
+            </div>
+            <div class="mb-3">
+                <label for="puntajeCritica">Puntaje (del 1 al 5)</label>
+                <input id="puntajeCritica" type="number" @bind-value="critica.Puntaje" class="form-control" min="1" max="5" placeholder="Puntaje" />
+            </div>
+
+            <button class="btn btn-outline-primary" @onclick="GuardarCritica" style="@(GuardarCriticaVisible ? "" : "display: none;")">Guardar Crítica</button>
+            <button class="btn btn-outline-primary" @onclick="EditarCritica" style="@(EditarCriticaVisible ? "" : "display: none;")">Modificar Crítica</button>
+            <button class="btn btn-outline-secondary" @onclick="CancelarCritica">Cancelar</button>
+        </div>
+    }
+</div>
+
+@code {
+    Pelicula pelicula = new Pelicula();
+    Critica critica = new Critica();
+    public static List<Pelicula> Peliculas = new List<Pelicula>();
+    public static List<Critica> Criticas = new List<Critica>();
+    string Respuesta = ":)";
+    bool GuardarVisible = false;
+    bool EditarVisible = false;
+    bool formVisible = false;
+    bool criticaFormVisible = false;
+    bool GuardarCriticaVisible = true;
+    bool EditarCriticaVisible = false;
+    string formTitle = "Crear Película";
+    string criticaFormTitle = "Crear Crítica";
+
+    private IBrowserFile selectedFile;
+
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        selectedFile = e.File;
+    }
+
+    private async Task UploadTrailer()
+    {
+        try
+        {
+            Console.WriteLine("Iniciando la carga del trailer...");
+
+            if (selectedFile != null)
+            {
+                var filePath = Path.GetTempFileName();
+                await using (var stream = selectedFile.OpenReadStream(15 * 1024 * 1024)) // Límite de 15 MB
+                await using (var fileStream = File.Create(filePath))
+                {
+                    await stream.CopyToAsync(fileStream);
+                }
+
+                var keyName = $"{pelicula.Titulo}-trailer.mp4";
+                var uploadResult = await S3Service.UploadFileAsync(filePath, keyName);
+
+                if (uploadResult.Contains("exitosamente"))
+                {
+                    pelicula.TrailerUrl = S3Service.GetPreSignedURL(keyName);
+                    Console.WriteLine("Trailer URL generada y asignada a la película: " + pelicula.TrailerUrl);
+
+                    StateHasChanged();
+                }
+                else
+                {
+                    Console.WriteLine("Error en la carga del archivo: " + uploadResult);
+                }
+
+                File.Delete(filePath);
+            }
+            else
+            {
+                Console.WriteLine("No se seleccionó ningún archivo.");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Excepción en UploadTrailer: " + ex.Message);
+        }
+    }
+
+    private void ToggleForm()
+    {
+        SaveVisible();
+        formVisible = !formVisible;
+    }
+
+    private void SaveVisible()
+    {
+        formTitle = "Crear Película";
+        GuardarVisible = true;
+        EditarVisible = false;
+    }
+
+    private void NullearCampos()
+    {
+        pelicula.Titulo = string.Empty;
+        pelicula.Descripcion = string.Empty;
+        pelicula.FechaLanzamiento = string.Empty;
+        pelicula.TrailerUrl = string.Empty;
+    }
+
+    void Cancelar()
+    {
+        pelicula = new Pelicula();
+        Respuesta = "Selección cancelada.";
+        formVisible = false;
+        SaveVisible();
+    }
+
+    async Task ObtenerPeliculasYCriticas()
+    {
+        Peliculas = await Http.GetFromJsonAsync<List<Pelicula>>("http://localhost:5244/api/peliculas/Listado");
+        Criticas = await Http.GetFromJsonAsync<List<Critica>>("http://localhost:5244/api/criticas/Listado");
+
+        foreach (var pelicula in Peliculas)
+        {
+            var keyName = $"{pelicula.Titulo}-trailer.mp4";
+            pelicula.TrailerUrl = S3Service.GetPreSignedURL(keyName);
+            Console.WriteLine($"Pelicula: {pelicula.Titulo}, TrailerUrl generada: {pelicula.TrailerUrl}");
+        }
+
+        StateHasChanged();
+    }
+
+    async Task Guardar()
+    {
+        var respuestajson = await Http.PostAsJsonAsync("http://localhost:5244/api/peliculas/Crear", pelicula);
+        if (respuestajson.IsSuccessStatusCode)
+        {
+            NullearCampos();
+            Respuesta = "Película guardada exitosamente.";
+            formVisible = false;
+            await ObtenerPeliculasYCriticas();
+        }
+        else
+        {
+            Respuesta = $"Error: {respuestajson.StatusCode} - {await respuestajson.Content.ReadAsStringAsync()}";
+        }
+    }
+
+    void AsignarPelicula(Pelicula p)
+    {
+        pelicula = p;
+        formTitle = "Modificar Película";
+        GuardarVisible = false;
+        EditarVisible = true;
+        formVisible = true;
+    }
+
+    async Task Editar()
+    {
+        var respuestajson = await Http.PutAsJsonAsync($"http://localhost:5244/api/peliculas/Actualizar/{pelicula.Id}", pelicula);
+        if (respuestajson.IsSuccessStatusCode)
+        {
+            Respuesta = "Película modificada exitosamente.";
+            formVisible = false;
+            await ObtenerPeliculasYCriticas();
+        }
+        else
+        {
+            Respuesta = $"Error: {respuestajson.StatusCode} - {await respuestajson.Content.ReadAsStringAsync()}";
+        }
+    }
+
+    async Task Eliminar(Pelicula p)
+    {
+        var response = await Http.DeleteAsync($"http://localhost:5244/api/peliculas/Eliminar/{p.Id}");
+        if (response.IsSuccessStatusCode)
+        {
+            Respuesta = "Película eliminada exitosamente.";
+            await ObtenerPeliculasYCriticas();
+        }
+        else
+        {
+            Respuesta = $"Error: {response.StatusCode} - {await response.Content.ReadAsStringAsync()}";
+        }
+    }
+
+    // Funciones para Críticas
+    void AsignarNuevaCritica(Pelicula pelicula)
+    {
+        critica = new Critica { PeliculaId = pelicula.Id };
+        GuardarCriticaVisible = true;
+        EditarCriticaVisible = false;
+        criticaFormVisible = true;
+    }
+
+    void AsignarCritica(Critica c)
+    {
+        critica = c;
+        GuardarCriticaVisible = false;
+        EditarCriticaVisible = true;
+        criticaFormTitle = "Modificar Crítica";
+        criticaFormVisible = true;
+    }
+
+    async Task GuardarCritica()
+    {
+        var response = await Http.PostAsJsonAsync("http://localhost:5244/api/criticas/Crear", critica);
+        if (response.IsSuccessStatusCode)
+        {
+            Respuesta = "Crítica guardada exitosamente.";
+            criticaFormVisible = false;
+            await ObtenerPeliculasYCriticas();
+        }
+    }
+
+    async Task EditarCritica()
+    {
+        var response = await Http.PutAsJsonAsync($"http://localhost:5244/api/criticas/Actualizar/{critica.Id}", critica);
+        if (response.IsSuccessStatusCode)
+        {
+            Respuesta = "Crítica modificada exitosamente.";
+            criticaFormVisible = false;
+            await ObtenerPeliculasYCriticas();
+        }
+    }
+
+    void CancelarCritica()
+    {
+        critica = new Critica();
+        Respuesta = "Edición de crítica cancelada.";
+        criticaFormVisible = false;
+    }
+
+    async Task EliminarCritica(Critica c)
+    {
+        var response = await Http.DeleteAsync($"http://localhost:5244/api/criticas/Eliminar/{c.Id}");
+        if (response.IsSuccessStatusCode)
+        {
+            Respuesta = "Crítica eliminada exitosamente.";
+            await ObtenerPeliculasYCriticas();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await ObtenerPeliculasYCriticas();
+    }
+
+    public class Pelicula
+    {
+        public int Id { get; set; }
+        public string Titulo { get; set; }
+        public string Descripcion { get; set; }
+        public string FechaLanzamiento { get; set; }
+        public string TrailerUrl { get; set; }
+    }
+
+    public class Critica
+    {
+        public int Id { get; set; }
+        public string Descripcion { get; set; }
+        public int Puntaje { get; set; }
+        public int PeliculaId { get; set; }
+    }
+}

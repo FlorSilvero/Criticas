@@ -1,0 +1,101 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #7a8a9819;
+}
+
+body {
+    margin-top: 0.1rem;
+    padding-bottom: 300px; /* Mantén el espacio extra al final de la página */
+    display: flex;
+    flex-direction: column;
+    min-height: 100%; /* Asegura que el contenido ocupe al menos toda la altura de la pantalla */
+    z-index: 0;               /* Coloca el fondo detrás de los demás elementos */
+
+}
+
+.content {
+   flex-grow: 1; /* Hace que el contenido ocupe el espacio disponible */
+   background-color: #7a8a9819; /* Fondo */
+   z-index: 1;               /* Coloca el fondo detrás de los demás elementos */
+
+}
+
+.tutorial-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px; /* Ajusté el margen para que haya espacio entre los tutoriales */
+    margin-bottom: 70px;
+    width: 100%;               /* Asegura que ocupe el 100% del ancho */
+    z-index: 2;               /* Coloca el fondo detrás de los demás elementos */
+
+}
+
+.tutorial-step {
+    background-color: #7a8a9819;
+    padding: 20px;
+    width: 30%;
+    border-radius: 8px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative; /* Para poder posicionar la imagen */
+    z-index: 3;               /* Coloca el fondo detrás de los demás elementos */
+
+}
+
+.tutorial-step:hover {
+    transform: scale(1.1); /* Aumenta el tamaño al pasar el mouse */
+}
+
+.tutorial-image {
+    width: 100%;
+    height: 150px; /* Puedes ajustar esta altura según necesites */
+    object-fit: cover; /* Asegura que la imagen se recorte para llenar el contenedor */
+    border-radius: 8px 8px 0 0; /* Borde redondeado solo en la parte superior */
+}
+
+h3, p {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+}
+
+p {
+    color: #666;
+}
+
+
+.welcome-image {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.pochoclos-img {
+    width: 100%;
+    height: auto;
+    max-height: 700px;
+}
+
+.welcome-rectangle {
+    background-color: #10487f;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.intro-text p {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    text-align: center;
+    margin-top: 20px;
+    font-size: 24px; /* Tamaño de fuente más grande */
+}
+

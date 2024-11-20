@@ -1,0 +1,85 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\BlazorApp1.bundle.scp.css",
+      "PackagePath": "staticwebassets\\BlazorApp1.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\Thunderbolts.jpg",
+      "PackagePath": "staticwebassets\\images\\Thunderbolts.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\Vivir_el_momento.jpg",
+      "PackagePath": "staticwebassets\\images\\Vivir_el_momento.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\cineamerica.jpg",
+      "PackagePath": "staticwebassets\\images\\cineamerica.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\cinemark.jpg",
+      "PackagePath": "staticwebassets\\images\\cinemark.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\gladiator2.jpg",
+      "PackagePath": "staticwebassets\\images\\gladiator2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\logo.jpg",
+      "PackagePath": "staticwebassets\\images\\logo.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\logo2.png",
+      "PackagePath": "staticwebassets\\images\\logo2.png"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\pochoclos.jpg",
+      "PackagePath": "staticwebassets\\images\\pochoclos.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\robotsalvaje.jpg",
+      "PackagePath": "staticwebassets\\images\\robotsalvaje.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\images\\showcase.jpg",
+      "PackagePath": "staticwebassets\\images\\showcase.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Florencia\\Downloads\\tp ing 3\\tp ing 3\\BlazorApp1\\wwwroot\\index.html",
+      "PackagePath": "staticwebassets\\index.html"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.BlazorApp1.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.BlazorApp1.props",
+      "PackagePath": "build\\BlazorApp1.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.BlazorApp1.props",
+      "PackagePath": "buildMultiTargeting\\BlazorApp1.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.BlazorApp1.props",
+      "PackagePath": "buildTransitive\\BlazorApp1.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

@@ -1,0 +1,33 @@
+.top-navbar[b-j65y7q72mt] {
+    background-color: #05163c; /* Color de fondo de la barra */
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar[b-j65y7q72mt] {
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-link[b-j65y7q72mt] {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover[b-j65y7q72mt] {
+    color: #4768a4; /* Color al pasar el mouse */
+}
+
+.content[b-j65y7q72mt] {
+    padding: 1rem;
+    margin-top: 0.0rem; /* Para que el contenido no se superponga a la barra */
+}

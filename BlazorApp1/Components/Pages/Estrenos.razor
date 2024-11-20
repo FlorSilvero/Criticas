@@ -1,0 +1,141 @@
+
+@page "/estrenos"
+@attribute [StreamRendering]
+@inject HttpClient Http
+
+@* @rendermode InteractiveServer *@
+@using Microsoft.AspNetCore.Components.Web
+
+
+<PageTitle>Estrenos</PageTitle>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+
+<h1></h1>
+
+<div class="container">
+<h2 style="font-size: 1.9em;">Estrenos más esperados...</h2>
+<p>Películas que se estrenan próximamente en cines, adelanto exclusivo en Palomitas y Opiniones</p>
+<p></p>
+
+
+<div class="movie-card">
+    <img src="images/gladiator2.jpg" alt="Gladiator II" class="movie-poster" />
+    <div class="movie-details">
+        <h1>Gladiator II</h1>
+        <p>15 de noviembre de 2024 | 2h 30min | Acción, Drama, Épico</p>
+     
+        <p class="description">
+            Tras la muerte de su ídolo Máximo, Lucio, el hijo de Lucilla, es puesto a salvo fuera del Imperio Romano. 
+            Sin embargo, su nueva patria es invadida por las legiones romanas dirigidas por el general Marco Acacio y 
+            después es vendido como esclavo para luchar en la arena.
+        </p>
+    </div>
+</div>
+
+<p></p>
+
+
+<div class="movie-card">
+    <img src="images/robotsalvaje.jpg" alt="Gladiator II" class="movie-poster" />
+    <div class="movie-details">
+        <h1>Robot salvaje</h1>
+        <p>21 de Noviembre de 2024 | 1h 42min | Aventura, Animación, Comedia</p>
+        <p class="description">
+            Un robot naufraga en una isla deshabitada donde deberá aprender a adaptarse al duro entorno, descubriéndose
+             también a sí mismo, y estableciendo gradualmente relaciones con otros animales de la isla, convirtiéndose
+              poco a poco uno más de los seres que habitan ese entorno.
+        </p>
+    </div>
+</div>
+<p></p>
+
+
+<div class="movie-card">
+    <img src="images/Thunderbolts.jpg" alt="Gladiator II" class="movie-poster" />
+    <div class="movie-details">
+        <h1>Thunderbolts*</h1>
+        <p>30 de abril de 2025 | Acción, Fantasía</p>
+     
+        <p class="description">
+          Película de Marvel en la que un grupo de villanos son enviados a 
+          misiones por encargo del gobierno. En ella veremos a otros personajes que ya forman parte del MCU como Barón Zemo,
+           Yelena Belova (la hermana de Viuda Negra), Fantasma, Taskmaster, Abominación, USA Agente y el Soldado de Invierno. Dirige el filme Jake Schreier (Ciudades de papel) sobre un guión de Eric Pearson (Thor: Ragnarok).
+        </p>
+    </div>
+</div>
+
+<p></p>
+
+
+<div class="movie-card">
+    <img src="images/Vivir_el_momento.jpg" alt="Gladiator II" class="movie-poster" />
+    <div class="movie-details">
+        <h1>Vivir el momento</h1>
+        <p>3 de enero de 2025 | 1h 44min | Comedia dramática, Drama, Romántico</p>
+        <p class="description">
+            Almut y Tobias se enamoran tras un encuentro, construyendo una vida en común llena de amor y desafíos.
+             Pero una difícil verdad pone a prueba su relación, llevándolos a valorar cada instante compartido y su inquebrantable amor.
+        </p>
+    </div>
+</div>
+
+</div>
+<p></p>
+<p></p>
+<p></p>
+
+
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Centra todas las tarjetas en la página */
+        padding: 20px;
+        max-width: 100%;
+    }
+   .movie-card {
+        display: flex;
+        width: 100%; /* Ocupa el 100% del ancho disponible */
+        max-width: 1000px; /* Define un ancho máximo para pantallas grandes */
+        margin: 20px 0; /* Espacio entre tarjetas */
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Añade una sombra para destacar */
+    }
+    .movie-poster {
+        width: 150px;
+        height: auto;
+        margin-right: 20px;
+        border-radius: 5px;
+    }
+    .movie-details {
+        display: flex;
+        flex-direction: column;
+    }
+    .ratings {
+        display: flex;
+        gap: 20px;
+        margin-top: 10px;
+    }
+    .rating {
+        font-weight: bold;
+        color: #f39c12;
+    }
+    .description {
+        margin-top: 15px;
+    }
+      .logo {
+        width: 50px; /* Ajusta el tamaño del logo */
+        height: auto;
+        margin-right: 10px; /* Espacio entre el logo y el título */
+        vertical-align: middle; /* Alinea el logo verticalmente con el texto */
+    }
+    h1 {
+        display: inline-flex; /* Asegura que el logo y el título estén en la misma línea */
+        align-items: center; /* Alinea el logo y el texto verticalmente */
+    }
+</style>
